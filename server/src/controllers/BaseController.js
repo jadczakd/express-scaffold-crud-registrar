@@ -48,7 +48,7 @@ class BaseController {
         winstonLogger.error(`[${this.resourceName} CRUD/Read]- ` + err.stack)
         res.status(500).json({
           status: 'error',
-          message: `Error reading ${this.resourceName}.`
+          message: `Error reading ${this.resourceName} ${id}`
         })
       })
   }

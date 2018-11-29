@@ -8,7 +8,8 @@ const config = {
   envPort: 9003,
   database: '',
   autoIndex: true,
-  adminPanel: true
+  adminPanel: true,
+  crudPrefix: '/cruds'
 }
 
 export { config as defaults }

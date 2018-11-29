@@ -119,9 +119,9 @@ db.connect(() => {
   });
 });
 
-app._router.stack.forEach(function(r){
+/* app._router.stack.forEach(function(r){
   if (r.route && r.route.path){
     console.log(r.route.path)
   }
-})
+}) */
 export default app;

@@ -1,8 +1,5 @@
 import mongoose from 'mongoose'
-import { config } from '../../configs'
-import { generatePanels } from '../panel'
 require('mongoose-schema-jsonschema')(mongoose)
-
 /**
  * Service that can be used as a base for all the Model specific services. Offers the basic CRUD operations in a generic way
  */
@@ -12,10 +9,6 @@ class BaseModelService {
     this.modelName = model.modelName.toLowerCase()
     this.key = key || '_id'
     this.model_json = model.jsonSchema()
-    if (config.adminPanel) {
-      // generation
-      generatePanels(this.model_json)
-    }
   }
 
   /**
