@@ -1,0 +1,70 @@
+{
+  "name": "express-scaffold-generated-panel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"npm run lint && babel-node server.js\"",
+    "build": "babel src --ignore '/tests/' -s -D -d ../dist/server/src && babel configs -s -D -d ../dist/server/configs && babel server.js -s -D -d ../dist/server && cp package* ../dist/server && cp -r node_modules ../dist/server/node_modules",
+    "start": "node ../dist/server/server.js",
+    "prestart": "npm run -s build",
+    "test": "NODE_ENV=test mocha --require babel-register ./src/tests/*.Spec.js ./src/tests/**/*.Spec.js",
+    "test-watch": "nodemon -w src --exec \"NODE_ENV=test mocha --require babel-register ./src/tests/*.Spec.js ./src/tests/**/*.Spec.js\"",
+    "lint": "eslint --fix configs src "
+  },
+  "author": "dj",
+  "license": "MIT",
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "errorhandler": "^1.5.0",
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.1.7",
+    "mongoose-float": "^1.0.2",
+    "mongoose-schema-jsonschema": "^1.1.15",
+    "morgan": "^1.9.1",
+    "winston": "^3.0.0",
+    "winston-daily-rotate-file": "^3.2.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.5",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      [
+        "transform-runtime",
+        {
+          "polyfill": false,
+          "regenerator": true
+        }
+      ]
+    ]
+  },
+  "eslintIgnore": [
+    "src/tests/*.js",
+    "src/tests/**/*.js"
+  ]
+}
