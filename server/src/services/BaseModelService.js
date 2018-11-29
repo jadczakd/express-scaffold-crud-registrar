@@ -53,12 +53,12 @@ class BaseModelService {
 
   readAll () {
     return new Promise((resolve, reject) => {
-      this.model.find({}).lean().exec((err, fetchedModels) => {
-        if (err) {
-          return reject(err)
-        }
-        return resolve(fetchedModels)
-      })
+      this.model.find({}).lean()
+        .then(data => {
+          console.log('resolved')
+          resolve(data)
+        })
+        .catch(e => reject(e))
     })
   }
 

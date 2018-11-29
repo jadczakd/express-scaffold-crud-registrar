@@ -37,20 +37,37 @@ class BaseController {
 
   get (req, res) {
     let documentObj
-    const id = req.params.id || 1
-    return this.service
-      .read(id)
-      .then(document => {
-        documentObj = document.toObject()
-        res.status(200).json({ status: 'ok', response: documentObj })
-      })
-      .catch(err => {
-        winstonLogger.error(`[${this.resourceName} CRUD/Read]- ` + err.stack)
-        res.status(500).json({
-          status: 'error',
-          message: `Error reading ${this.resourceName} ${id}`
+    const id = req.params.id
+    if (id) {
+      return this.service
+        .read(id)
+        .then(document => {
+          documentObj = document.toObject()
+          res.status(200).json({ status: 'ok', response: documentObj })
         })
-      })
+        .catch(err => {
+          winstonLogger.error(`[${this.resourceName} CRUD/Read]- ` + err.stack)
+          res.status(500).json({
+            status: 'error',
+            message: `Error reading ${this.resourceName} ${id}`
+          })
+        })
+    } else {
+      return this.service
+        .readAll()
+        .then(documents => {
+          console.log('here', documents)
+          res.status(200).json({ status: 'ok', response: documents })
+        })
+        .catch(err => {
+          console.log(err)
+          winstonLogger.error(`[${this.resourceName} CRUD/ReadAll]- ` + err.stack)
+          res.status(500).json({
+            status: 'error',
+            message: `Error reading ${this.resourceName}s.`
+          })
+        })
+    }
   }
 
   readAll (req, res) {

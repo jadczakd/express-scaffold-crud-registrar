@@ -6,9 +6,17 @@ export const generatePanels = (model, method, url) => {
   const { modelName } = model
   if (!routes[modelName]) {
     routes[modelName] = {}
+    routes[modelName].methods = {}
+    routes[modelName].name = modelName
   }
-  routes[modelName][method] = url
-  fs.writeFile('./views/registeredModels.json', JSON.stringify(routes), function (err) {
+  if (method === 'get' && !url.endsWith(':id')) {
+    method = 'getAll'
+  }
+  routes[modelName]['methods'][method] = url
+  if (!routes[modelName]['model']) {
+    routes[modelName]['model'] = model.model_json.properties
+  }
+  fs.writeFileSync('./views/registeredModels.json', JSON.stringify(routes), function (err) {
     if (err) return console.log(err)
     console.log(JSON.stringify(routes))
     console.log('writing to ' + fileName)

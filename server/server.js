@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs')
 
 app.get('/admin', function (req, res) {
-  res.redirect('public/index.html')
+  res.render('admin')
 })
 app.use('/public', express.static(path.join(__dirname, '/views')))
 

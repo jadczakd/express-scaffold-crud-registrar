@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generative Admin Panel</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+  <link href="styles.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <v-navigation-drawer
+        fixed
+        :mini-variant="miniVariant"
+        :clipped="clipped"
+        v-model="drawer"
+        app
+      >
+        <v-list>
+          <v-list-tile :value="true" v-for="(item, i) in models" :key="item.name">
+            <v-btn @click="clicker(item.name)">
+              <v-list-tile-action>
+                <v-icon light v-html="icon"></v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-text="item.name">
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-btn>
+          </v-list-tile>
+        </v-list>
+      </v-navigation-drawer>
+      <v-toolbar fixed app :clipped-left="clipped">
+        <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-btn 
+          icon
+          @click.stop="miniVariant = !miniVariant"
+        >
+          <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+        </v-btn>
+        <v-btn
+          icon
+          @click.stop="clipped = !clipped"
+        >
+          <v-icon>web</v-icon>
+        </v-btn>
+        <v-toolbar-title v-text="title" @click="clicker('home')"></v-toolbar-title>
+      </v-toolbar>
+      <main>
+        <v-content>
+          <v-container fluid>
+            <v-layout column align-center v-for="model in models" v-if='activePanel == model.name'>
+              <div >
+                <img src="https://avatars1.githubusercontent.com/u/1146?s=280&v=4" alt="Netguru" class="mb-5" height="100px" />
+              </div>
+              <blockquote>
+                <v-btn v-for="(url, key) in model.methods" @click="handleRequest(key, url)">
+                  {{ key }} : {{ url }}
+                </v-btn>
+                <div v-for="(value, key) in model.model">
+                  <div v-if="value.type != 'object'">  {{ key }} : {{ value }}</div>
+                  <div v-else>
+                      <div v-for="(value, key) in model.model">
+                          <div v-if="value.type != 'object'"> {{ key }} : {{ value }}</div>
+                        </div>
+                  </div>
+                </div>
+              </blockquote>
+            </v-layout>
+            <v-layout column align-center v-if='activePanel == "home"'>
+              <div>
+                  <img src="https://avatars1.githubusercontent.com/u/1146?s=280&v=4" alt="Netguru" class="mb-5" height="100px" />
+                </div>
+                <blockquote>
+                  &#8220;A simple app to show the mechanisms beneath&#8221;
+                </blockquote>
+            </v-layout>
+          </v-container>
+        </v-content>
+      </main>
+      <v-footer :fixed="fixed" app>
+        <span>&copy; 2018</span>
+      </v-footer>
+    </v-app>
+  </div>
+
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    Vue.component('page', {
+      template: '#page'
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        clipped: true,
+        drawer: true,
+        fixed: false,
+        icon: 'bubble_chart',
+        activePanel: 'home',
+        items: [
+          { icon: 'bubble_chart', title: 'Inspire' }
+        ],
+        miniVariant: false,
+        title: 'Generative admin panel',
+        models: null
+      },
+      mounted: function() {
+        this.$vuetify.theme.primary = '#00d463'
+        fetch('./registeredModels.json')
+          .then(data => {
+            return data.json()
+          })
+          .then(d => {
+            this.models = d
+          })
+      },
+      methods: {
+        clicker: function(name) {
+          this.activePanel = name
+        },
+        handleRequest: function(method, url) {
+          switch(method) {
+            case 'getAll':
+              method = 'get'
+              break
+            default:
+              if (url.endsWith(':id') && this.sendable.id) {
+                url.replace(':id', this.sendable.id)
+              }
+              break
+          }
+          axios[method](url, this.sendable)
+            .then(this[`handlers-${method}`])
+            .catch(e => console.log(e))
+        },
+        ['handlers-get']: function(res) { console.log(res)},
+        ['handlers-put']: function(res) { console.log(res)},
+        ['handlers-post']: function(res) { console.log(res)},
+        ['handlers-delete']: function(res) { console.log(res)}
+      }
+    })
+  </script>
+</body>
+</html>

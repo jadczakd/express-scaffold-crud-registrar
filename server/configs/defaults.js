@@ -6,7 +6,7 @@ const config = {
   /* PROJECT */
   version: 1,
   envPort: 9003,
-  database: '',
+  database: 'localhost:27017/test',
   autoIndex: true,
   adminPanel: true,
   crudPrefix: '/cruds'

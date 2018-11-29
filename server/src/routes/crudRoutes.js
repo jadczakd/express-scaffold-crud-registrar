@@ -7,7 +7,7 @@ import { crudRegistrar } from '../utils/crudRegistrar'
 const router = express.Router();
 
 [productController, userController].forEach(controller => {
-  crudRegistrar(router, controller, ['get', 'post'])
+  crudRegistrar(router, controller, ['get', 'post', 'put', 'getAll', 'delete'])
 })
 
 export const crudRoutes = {
