@@ -13,6 +13,7 @@ class BaseModelService {
     this.key = key || '_id'
     this.model_json = model.jsonSchema()
     if (config.adminPanel) {
+      // generation
       generatePanels(this.model_json)
     }
   }
@@ -53,17 +54,6 @@ class BaseModelService {
           return reject(err)
         }
         return resolve(fetchedModel)
-      })
-    })
-  }
-
-  readMultiple (query) {
-    return new Promise((resolve, reject) => {
-      this.model.find(query).lean().exec((err, fetchedModels) => {
-        if (err) {
-          return reject(err)
-        }
-        return resolve(fetchedModels)
       })
     })
   }

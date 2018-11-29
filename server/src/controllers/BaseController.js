@@ -10,17 +10,17 @@ class BaseController {
     this.resourceName = resourceName
 
     // bind class functions to its instance
-    this.create = this.create.bind(this)
-    this.read = this.read.bind(this)
+    this.create = this.post.bind(this)
+    this.get = this.get.bind(this)
     this.readAll = this.readAll.bind(this)
     this.delete = this.delete.bind(this)
-    this.update = this.update.bind(this)
+    this.put = this.put.bind(this)
   }
 
-  create (req, res) {
+  post (req, res) {
     let createdId
 
-    this.service
+    return this.service
       .create(req.body)
       .then(dbResponse => {
         createdId = dbResponse._id
@@ -35,10 +35,11 @@ class BaseController {
       })
   }
 
-  read (req, res) {
+  get (req, res) {
     let documentObj
-    this.service
-      .read(req.params.id)
+    const id = req.params.id || 1
+    return this.service
+      .read(id)
       .then(document => {
         documentObj = document.toObject()
         res.status(200).json({ status: 'ok', response: documentObj })
@@ -53,7 +54,7 @@ class BaseController {
   }
 
   readAll (req, res) {
-    this.service
+    return this.service
       .readAll()
       .then(documents => {
         res.status(200).json({ status: 'ok', response: documents })
@@ -69,7 +70,7 @@ class BaseController {
   }
 
   delete (req, res) {
-    this.service
+    return this.service
       .delete(req.params.id)
       .then(() => {
         res.status(200).json({ status: 'ok' })
@@ -83,8 +84,8 @@ class BaseController {
       })
   }
 
-  update (req, res) {
-    this.service
+  put (req, res) {
+    return this.service
       .update(req.params.id, req.body)
       .then(doc => {
         res.status(200).json({ status: 'ok', response: doc })

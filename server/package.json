@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon -w src --exec \"npm run lint && babel-node server.js\"",
+    "dev": "nodemon -w ./ --exec \"npm run lint && babel-node server.js\"",
     "build": "babel src --ignore '/tests/' -s -D -d ../dist/server/src && babel configs -s -D -d ../dist/server/configs && babel server.js -s -D -d ../dist/server && cp package* ../dist/server && cp -r node_modules ../dist/server/node_modules",
     "start": "node ../dist/server/server.js",
     "prestart": "npm run -s build",

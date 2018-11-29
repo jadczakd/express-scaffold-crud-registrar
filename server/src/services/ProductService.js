@@ -2,7 +2,8 @@ import BaseModelService from './BaseModelService'
 import product from '../models/productModel.js'
 
 class ProductService extends BaseModelService {
-  constructor () {
+  // eslint-disable-next-line no-useless-constructor
+  constructor (product) {
     super(product)
   }
 
@@ -23,4 +24,4 @@ class ProductService extends BaseModelService {
   }
 }
 
-export const productService = new ProductService()
+export const productService = new ProductService(product)

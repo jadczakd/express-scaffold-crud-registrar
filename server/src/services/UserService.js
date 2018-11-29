@@ -23,4 +23,4 @@ class UserService extends BaseModelService {
   }
 }
 
-export const userService = new UserService()
+export const userService = new UserService(user)

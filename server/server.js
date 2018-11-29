@@ -12,6 +12,7 @@ import { config } from './configs';
 import routes from './src/routes';
 import { winstonLogger } from './src/utils/logger';
 import { db } from './src/utils/db';
+import path from 'path';
 
 const mongooseConnection = mongoose.connection;
 const app = express();
@@ -62,8 +63,10 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs')
 
 app.get('/admin', function (req, res) {
-  res.render('admin', { ID: req.params.id })
+  res.redirect('public/index.html')
 })
+app.use('/public', express.static(path.join(__dirname, '/views')))
+
 // feed the routes to the app
 routes(app);
 
