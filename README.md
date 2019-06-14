@@ -6,5 +6,3 @@ TODO:
   - generic error handling
   - replace ejs in the admin panel
   - add generic / abstract path replacements
-
-[![](https://codescene.io/projects/5061/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/5061/jobs/latest-successful/results)
